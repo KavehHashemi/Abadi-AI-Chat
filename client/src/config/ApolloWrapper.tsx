@@ -1,8 +1,12 @@
 import { ReactElement, ReactNode, useEffect, useState } from "react";
-import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
+import {
+  ApolloClient,
+  InMemoryCache,
+  ApolloProvider,
+  HttpLink,
+} from "@apollo/client";
 import { useAuth0 } from "@auth0/auth0-react";
 import { setContext } from "@apollo/client/link/context";
-import { createUploadLink } from "apollo-upload-client";
 
 export default function ApolloWrapper({
   children,
@@ -34,26 +38,13 @@ export default function ApolloWrapper({
 
   console.log(`authentication: ${bearerToken.length}`);
 
-  const uploadlink = createUploadLink({
+  const httpLink = new HttpLink({
     uri: "http://localhost:4000",
-    headers: {
-      "Apollo-Require-Preflight": "true",
-    },
   });
   const client = new ApolloClient({
     cache: new InMemoryCache(),
-    link: authLink.concat(uploadlink),
+    link: authLink.concat(httpLink),
   });
 
-  // const client2 = useMemo(() => {
-  //   const httpLink = new HttpLink({
-  //     uri: "http://localhost:4000",
-  //   });
-
-  //   return new ApolloClient({
-  //     link: authLink.concat(httpLink),
-  //     cache: new InMemoryCache(),
-  //   });
-  // }, []);
   return <ApolloProvider client={client}>{children}</ApolloProvider>;
 }

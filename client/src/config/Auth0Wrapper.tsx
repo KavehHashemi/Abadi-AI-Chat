@@ -1,15 +1,14 @@
 import { Auth0Provider } from "@auth0/auth0-react";
 import { ReactNode } from "react";
-import { environmentVariables as EV } from "../consts";
 
 const Auth0Wrapper = ({ children }: { children: ReactNode }) => {
   return (
     <Auth0Provider
-      domain={EV.domain}
-      clientId={EV.clientId}
+      domain={import.meta.env.VITE_DOMAIN}
+      clientId={import.meta.env.VITE_CLIENT_ID}
       authorizationParams={{
         redirect_uri: window.location.origin,
-        audience: EV.audience,
+        audience: "http://localhost:4000/",
       }}
     >
       {children}

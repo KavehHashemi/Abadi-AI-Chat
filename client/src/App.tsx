@@ -1,17 +1,16 @@
 import "./style/style.scss";
-import { Link, Routes, Route } from "react-router-dom";
-// import Sets from "./components/Sets";
+import { Routes, Route } from "react-router-dom";
+
 import { useAppDispatch, useAppSelector } from "./store/hooks";
-// import Cards from "./components/Cards";
-// import Arrow from "@mui/icons-material/ChevronRight";
+
 import Switch from "@mui/material/Switch";
 import Light from "@mui/icons-material/LightMode";
 import Dark from "@mui/icons-material/DarkMode";
 import { setLightMode } from "./store/mode";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { lightThemeOptions, darkThemeOptions } from "./Themes";
 import { useAuth0 } from "@auth0/auth0-react";
 import Feed from "./components/Feed";
-import Ex from "./components/ex";
 
 const App = () => {
   const dispatch = useAppDispatch();
@@ -19,28 +18,11 @@ const App = () => {
     useAuth0();
   const { isLightMode } = useAppSelector((state) => state.mode);
 
-  const theme = createTheme({
-    components: {
-      MuiFormLabel: {
-        styleOverrides: {
-          root: {
-            color: isLightMode ? "#242424" : "#f5f5f5",
-          },
-        },
-      },
-      MuiDialog: {
-        styleOverrides: {
-          paper: {
-            backgroundColor: isLightMode ? "#fff" : "#242424",
-            // color: isLightMode ? "#242424" : "#f5f5f5",
-          },
-        },
-      },
-    },
-  });
+  const darkTheme = createTheme(darkThemeOptions);
+  const lightTheme = createTheme(lightThemeOptions);
 
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={isLightMode ? lightTheme : darkTheme}>
       {isLoading ? (
         <div>Loading...</div>
       ) : isAuthenticated ? (
@@ -65,7 +47,6 @@ const App = () => {
           </nav>
           <Routes>
             <Route path="/" element={<Feed></Feed>}></Route>
-            <Route path="/ex" element={<Ex></Ex>}></Route>
           </Routes>
         </div>
       ) : (

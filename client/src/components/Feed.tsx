@@ -1,13 +1,13 @@
-import Messages from "./Messages";
-import SendMessage from "./SendMessage";
+// import Messages from "./Messages";
+// import SendMessage from "./SendMessage";
 
-const Feed = () => {
-  return (
-    <div>
-      <Messages></Messages>
-      <SendMessage></SendMessage>
-    </div>
-  );
-};
+// const Feed = () => {
+//   return (
+//     <div>
+//       <Messages></Messages>
+//       <SendMessage></SendMessage>
+//     </div>
+//   );
+// };
 
-export default Feed;
+// export default Feed;

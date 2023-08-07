@@ -1,5 +1,5 @@
 import { GraphQLError } from "graphql";
-import { Message } from "./mongoose.js";
+import { User, Conversation, Message } from "./mongoose.js";
 
 type CTXType = {
   auth: {
@@ -10,28 +10,61 @@ type CTXType = {
 
 export const resolvers = {
   Query: {
-    messages: async (parent: any, args: any, context: CTXType, info: any) => {
+    user: async (parent: any, userID: String, context: CTXType) => {
       if (!context.auth.isAuthenticated) {
         throw new GraphQLError("User Not Authenticated");
       } else {
-        return await Message.find({});
+        return await User.find({ id: userID });
       }
+    },
+    conversations: async (_, { userID }) => {
+      return await Conversation.find({ userID: userID });
+    },
+    messages: async (_, { conversationID }) => {
+      return await Message.find({ conversationID: conversationID });
     },
   },
   Mutation: {
-    addMessage: async (_, { owner, text }) => {
+    addUser: async (_, { userID }) => {
       let now = Date.now().toString();
-      console.log(`owner`);
-      console.log(owner);
-
-      const newMessage = new Message({
-        text: text,
-        date: now,
-        owner: owner,
+      const newUser = new User({
+        id: userID,
+        creationDate: now,
       });
-      await newMessage.save();
+      await newUser.save();
+      return newUser;
+    },
 
-      return newMessage;
+    addConversation: async (_, { userID, title }) => {
+      let now = Date.now().toString();
+      const newConvo = new Conversation({
+        userID: userID,
+        startDate: now,
+        title: title,
+      });
+      await newConvo.save();
+      return newConvo;
+    },
+
+    addMessage: async (_, { conversationID, isAI, text }) => {
+      console.log("addMessage resolver");
+      let now = Date.now().toString();
+      const newMsg = new Message({
+        conversationID: conversationID,
+        date: now,
+        isAI: isAI,
+        text: text,
+      });
+      await newMsg.save();
+      return newMsg;
+    },
+
+    deleteConversation: async (_, { conversationID }) => {
+      let result = await Conversation.deleteOne({ _id: conversationID });
+      if (result.acknowledged && result.deletedCount === 1) {
+        return await conversationID;
+      }
+      return null;
     },
   },
 };

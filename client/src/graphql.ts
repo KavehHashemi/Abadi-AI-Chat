@@ -1,24 +1,65 @@
 import { gql } from "@apollo/client";
 
 ///QUERIES
-export const MESSAGES_QUERY = gql`
-  query Query {
-    messages {
-      id
-      text
-      date
-      owner
+export const USER_QUERY = gql`
+  query Query($userID: ID) {
+    user(userID: $userID) {
+      userID
+      creationDate
     }
   }
 `;
 
-///MESSAGE-MUTATION
-export const ADD_MESSAGE = gql`
-  mutation Mutation($owner: String, $text: String) {
-    addMessage(owner: $owner, text: $text) {
+export const CONVERSATIONS_QUERY = gql`
+  query Query($userID: ID) {
+    conversations(userID: $userID) {
       id
+      startDate
+      userID
+      title
+    }
+  }
+`;
+
+export const MESSAGES_QUERY = gql`
+  query Query($conversationID: ID) {
+    messages(conversationID: $conversationID) {
+      id
+      conversationID
+      date
+      isAI
       text
-      owner
+    }
+  }
+`;
+
+///MUTATIONS
+export const ADD_USER = gql`
+  mutation Mutation($userID: ID) {
+    addUser(userID: $userID) {
+      id
+      creationDate
+    }
+  }
+`;
+export const ADD_CONVERSATION = gql`
+  mutation Mutation($userID: ID, $title: String) {
+    addConversation(userID: $userID, title: $title) {
+      id
+      userID
+      startDate
+      title
+    }
+  }
+`;
+export const ADD_MESSAGE = gql`
+  mutation Mutation($conversationID: ID, $isAI: Boolean, $text: String) {
+    addMessage(conversationID: $conversationID, isAI: $isAI, text: $text) {
+      id
+      conversationID
+      date
+      isAI
+      text
     }
   }
 `;

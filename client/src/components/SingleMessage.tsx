@@ -1,25 +1,17 @@
 import { handleDate } from "../utils";
 
-type props = {
-  owner: string;
-  text: string;
+type SingleMessageProps = {
   date: string;
-  id: string;
+  isAI: boolean;
+  text: string;
 };
-const SingleMessage = ({ id, date, owner, text }: props) => {
+
+const SingleMessage = ({ date, isAI, text }: SingleMessageProps) => {
   return (
-    <div
-      id={id}
-      style={{
-        padding: "1rem",
-        border: "1px solid #555",
-        borderRadius: "0.5rem",
-        backgroundColor: "#222",
-      }}
-    >
-      <div>{owner}</div>
+    <div>
       <div>{text}</div>
       <div>{handleDate(date)}</div>
+      <hr></hr>
     </div>
   );
 };

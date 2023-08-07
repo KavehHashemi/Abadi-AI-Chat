@@ -1,15 +1,38 @@
 export const typeDefs = `#graphql
 
-  type Message{
+  type Message {
     id:ID
-    text:String
+    conversationID: ID
     date:String
-    owner:String
+    isAI:Boolean
+    text:String
   }
+
+  type Conversation {
+    id:ID
+    userID:ID
+    startDate:String
+    lastDate:String
+    title:String
+    # messages:[Message]
+  }
+
+  type User {
+    id: ID
+    creationDate:String
+    # conversations:[Conversation]
+  }
+
    type Query {
-    messages:[Message]   
+    user(userID:ID):User
+    conversations(userID:ID):[Conversation]
+    messages(conversationID:ID):[Message]
   }
   type Mutation {
-        addMessage(owner:String,text:String,date:String):Message
+    addUser(userID:ID):User
+    addConversation(title:String,userID:ID):Conversation
+    addMessage(isAI:Boolean,text:String,conversationID:ID):Message
+
+    deleteConversation(conversationID:ID):ID
     }
 `;

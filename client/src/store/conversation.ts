@@ -14,7 +14,6 @@ export const conversationSlice = createSlice({
   reducers: {
     setCurrentConversation: (state, action) => {
       state.currentConversation = action.payload;
-      console.log(state.currentConversation);
     },
   },
 });

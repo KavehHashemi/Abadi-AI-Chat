@@ -9,6 +9,7 @@
     "rootDirs": ["src"],
     "lib": ["es2020"],
     "moduleResolution": "node",
-    "types": ["node"]
+    "types": ["node"],
+    "skipLibCheck": true
   }
 }

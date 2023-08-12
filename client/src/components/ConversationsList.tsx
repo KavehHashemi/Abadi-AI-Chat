@@ -4,6 +4,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import ConversationCard from "./ConversationCard";
 import NewConversation from "./NewConversation";
 import { ConversationType } from "../types";
+import "../style/style.scss";
 
 const ConversationsList = () => {
   const { user } = useAuth0();
@@ -14,7 +15,7 @@ const ConversationsList = () => {
   if (error) return <div>{error.message}</div>;
   else {
     return (
-      <>
+      <div className="conversations-container">
         <NewConversation
           userID={user?.sub?.split("|")[1] || ""}
         ></NewConversation>
@@ -29,7 +30,7 @@ const ConversationsList = () => {
             ></ConversationCard>
           );
         })}
-      </>
+      </div>
     );
   }
 };

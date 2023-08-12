@@ -14,24 +14,25 @@ export const typeDefs = `#graphql
     startDate:String
     lastDate:String
     title:String
-    # messages:[Message]
+    # QAInstance:String
+
   }
 
   type User {
     id: ID
     creationDate:String
-    # conversations:[Conversation]
   }
 
    type Query {
     user(userID:ID):User
     conversations(userID:ID):[Conversation]
     messages(conversationID:ID):[Message]
+    question(question:String, conversationID:ID):Message
   }
   type Mutation {
     addUser(userID:ID):User
-    addConversation(title:String,userID:ID):Conversation
-    addMessage(isAI:Boolean,text:String,conversationID:ID):Message
+    addConversation(title:String, userID:ID):Conversation
+    addMessage(isAI:Boolean, text:String, conversationID:ID):Message
 
     deleteConversation(conversationID:ID):ID
     }

@@ -4,10 +4,10 @@ export const darkThemeOptions: ThemeOptions = {
   palette: {
     mode: "dark",
     primary: {
-      main: "#00f3ff",
+      main: "#2196f3",
     },
     secondary: {
-      main: "#8689DC",
+      main: "#00e5ff",
     },
     background: {
       default: "#000011",
@@ -29,8 +29,9 @@ export const darkThemeOptions: ThemeOptions = {
         root: {
           borderRadius: "0.5rem",
           gap: "0.1rem",
+          cursor: "pointer",
           "&:hover": {
-            boxShadow: "0px 3px 0px -1px rgb(134,137,220)",
+            backgroundColor: "#101010",
           },
         },
       },
@@ -49,14 +50,14 @@ export const lightThemeOptions: ThemeOptions = {
   palette: {
     mode: "light",
     primary: {
-      main: "#00f3ff",
+      main: "#2196f3",
     },
     secondary: {
-      main: "#8689DC",
+      main: "#067d8a",
     },
     background: {
-      default: "#eeeeee",
-      paper: "#fefefe",
+      default: "#fff",
+      paper: "#eee",
     },
     text: {
       primary: "#324b4d",
@@ -77,9 +78,11 @@ export const lightThemeOptions: ThemeOptions = {
         root: {
           borderRadius: "0.5rem",
           gap: "0.1rem",
+          cursor: "pointer",
+          backgroundColor: "#f1f1f1",
           "&:hover": {
             boxShadow:
-              "0px 5px 5px -3px rgba(0, 0, 0,0.2), 0px 8px 10px 1px rgba(0, 0, 0,0.14), 0px 3px 14px 2px rgba(0, 0, 0,0.12)",
+              "0px 2px 4px -1px rgba(0, 0, 0,0.2), 0px 4px 5px 0px rgba(0, 0, 0,0.14), 0px 1px 10px 0px rgba(0, 0, 0,0.12)",
           },
         },
       },

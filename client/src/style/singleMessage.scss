@@ -1,0 +1,26 @@
+@import 'variables';
+
+.single-message-container-h {
+    @extend %singleMessageContainer;
+    justify-content: start;
+
+    .single-message {
+        @extend %singleMessage;
+        border-radius: 1rem 1rem 1rem 0;
+        background-color: #00000010;
+    }
+
+}
+
+.single-message-container-a {
+    @extend %singleMessageContainer;
+    justify-content: end;
+
+    // color: #067d8a;
+    .single-message {
+        @extend %singleMessage;
+        border-radius: 1rem 1rem 0 1rem;
+        background-color: #00000010;
+    }
+
+}

@@ -1,0 +1,14 @@
+.new-message-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    bottom: 0;
+    position: sticky;
+    gap: 1.5rem;
+    padding: 2rem;
+    border-top: 1px solid dimgrey;
+
+    input {
+        width: 50vw;
+    }
+}

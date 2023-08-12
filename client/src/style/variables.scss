@@ -1,0 +1,15 @@
+%container {
+    display: flex;
+    flex-direction: column;
+    padding-inline: 1.5rem;
+}
+
+%singleMessageContainer {
+    display: flex;
+    width: 100%;
+}
+
+%singleMessage {
+    display: flex;
+    width: fit-content;
+}

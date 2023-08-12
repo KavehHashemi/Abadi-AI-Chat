@@ -33,6 +33,18 @@ export const MESSAGES_QUERY = gql`
   }
 `;
 
+export const QUESTION_QUERY = gql`
+  query Query($question: String, $conversationID: ID) {
+    question(question: $question, conversationID: $conversationID) {
+      id
+      conversationID
+      date
+      isAI
+      text
+    }
+  }
+`;
+
 ///MUTATIONS
 export const ADD_USER = gql`
   mutation Mutation($userID: ID) {

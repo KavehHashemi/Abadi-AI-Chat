@@ -1,0 +1,8 @@
+@import "variables";
+
+.messages-container {
+    @extend %container;
+    padding-block: 1.5rem;
+    gap: 0.5rem;
+    min-height: calc(100dvh - 14.5rem);
+}

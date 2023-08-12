@@ -1,5 +1,6 @@
 import { GraphQLError } from "graphql";
 import { User, Conversation, Message } from "./mongoose.js";
+import { QA } from "./AI/QA.js";
 
 type CTXType = {
   auth: {
@@ -22,6 +23,17 @@ export const resolvers = {
     },
     messages: async (_, { conversationID }) => {
       return await Message.find({ conversationID: conversationID });
+    },
+    question: async (_, { question, conversationID }) => {
+      let now = Date.now().toString();
+      // let convo = await Conversation.findById(conversationID);
+      const newAIMessage = new Message({
+        conversationID: conversationID,
+        date: now,
+        isAI: true,
+        text: question,
+      });
+      return newAIMessage;
     },
   },
   Mutation: {
@@ -47,7 +59,6 @@ export const resolvers = {
     },
 
     addMessage: async (_, { conversationID, isAI, text }) => {
-      console.log("addMessage resolver");
       let now = Date.now().toString();
       const newMsg = new Message({
         conversationID: conversationID,

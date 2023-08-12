@@ -1,0 +1,7 @@
+@import 'variables';
+
+.conversations-container {
+    @extend %container;
+    padding-bottom: 1rem;
+    gap: 0.5rem
+}

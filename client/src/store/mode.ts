@@ -4,8 +4,11 @@ type urlProps = {
   isLightMode: boolean;
 };
 
+const userMode: boolean | null =
+  localStorage.getItem("isLightMode") === "true" ? true : false;
+
 const initialState: urlProps = {
-  isLightMode: false,
+  isLightMode: userMode || false,
 };
 
 export const setsSlice = createSlice({
@@ -14,6 +17,7 @@ export const setsSlice = createSlice({
   reducers: {
     setLightMode: (state, action) => {
       state.isLightMode = action.payload;
+      localStorage.setItem("isLightMode", state.isLightMode.toString());
     },
   },
 });

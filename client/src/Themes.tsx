@@ -30,6 +30,7 @@ export const darkThemeOptions: ThemeOptions = {
           borderRadius: "0.5rem",
           gap: "0.1rem",
           cursor: "pointer",
+          backgroundColor: "#0a0a0a",
           "&:hover": {
             backgroundColor: "#101010",
           },
@@ -50,17 +51,18 @@ export const lightThemeOptions: ThemeOptions = {
   palette: {
     mode: "light",
     primary: {
-      main: "#2196f3",
+      main: "#0071b6",
     },
     secondary: {
-      main: "#067d8a",
+      main: "#ff8f00",
     },
     background: {
-      default: "#fff",
-      paper: "#eee",
+      default: "#f8f8f8",
+      paper: "#f8f8f8",
     },
     text: {
-      primary: "#324b4d",
+      primary: "#c5c5c5",
+      secondary: "#324b4d",
     },
   },
   components: {
@@ -79,18 +81,12 @@ export const lightThemeOptions: ThemeOptions = {
           borderRadius: "0.5rem",
           gap: "0.1rem",
           cursor: "pointer",
-          backgroundColor: "#f1f1f1",
+          backgroundColor: "#fff",
+          boxShadow: "none",
+          border: "1px solid #f1f1f1",
           "&:hover": {
-            boxShadow:
-              "0px 2px 4px -1px rgba(0, 0, 0,0.2), 0px 4px 5px 0px rgba(0, 0, 0,0.14), 0px 1px 10px 0px rgba(0, 0, 0,0.12)",
+            boxShadow: "2px 2px 10px #ddd",
           },
-        },
-      },
-    },
-    MuiButton: {
-      styleOverrides: {
-        root: {
-          color: "#324b4d",
         },
       },
     },

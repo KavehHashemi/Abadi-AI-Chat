@@ -66,7 +66,7 @@ const NewMessage = ({ conversationID }: NewMessageProps) => {
         type="text"
       ></TextField>
       <Button variant="contained" onClick={handleClick}>
-        send
+        Ask
       </Button>
     </Paper>
   );

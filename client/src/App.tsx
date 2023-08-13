@@ -23,6 +23,7 @@ const App = () => {
   return (
     <ThemeProvider theme={isLightMode ? lightTheme : darkTheme}>
       <Paper sx={{ minHeight: "100dvh" }}>
+        {/* <div style={{ minHeight: "100dvh" }}> */}
         <Navbar isLightMode={isLightMode}></Navbar>
         {isLoading ? (
           <>loading</>
@@ -40,6 +41,7 @@ const App = () => {
         ) : (
           <div className="login">you need to login first</div>
         )}
+        {/* </div> */}
       </Paper>
     </ThemeProvider>
   );

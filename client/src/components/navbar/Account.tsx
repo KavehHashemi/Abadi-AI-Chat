@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import Popover from "@mui/material/Popover";
 import Button from "@mui/material/Button";
-import { CardContent } from "@mui/material";
+import { CardContent, Typography } from "@mui/material";
 
 const Account = () => {
   const { user, logout, loginWithRedirect } = useAuth0();
@@ -20,7 +20,9 @@ const Account = () => {
   if (user)
     return (
       <>
-        <Button onClick={handleClick}>{user.nickname}</Button>
+        <Button color="inherit" onClick={handleClick}>
+          {user.nickname}
+        </Button>
         <Popover
           open={open}
           anchorEl={anchorEl}

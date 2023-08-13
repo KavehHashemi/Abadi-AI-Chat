@@ -16,14 +16,14 @@ const SingleMessage = ({ date, isAI, text }: SingleMessageProps) => {
       }
     >
       {/* <Card className={isAI ? "single-message-a" : "single-message-h"}> */}
-      <Paper className="single-message">
+      <Card className="single-message">
         <CardContent>
           <Typography color={isAI ? "secondary" : "primary"}>{text}</Typography>
           <Typography variant="caption" color="GrayText">
             {handleDate(date)}
           </Typography>
         </CardContent>
-      </Paper>
+      </Card>
     </div>
   );
 };

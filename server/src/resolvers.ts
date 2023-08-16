@@ -25,34 +25,24 @@ export const resolvers = {
       return await Message.find({ conversationID: conversationID });
     },
     question: async (_, { question, conversationID }) => {
-      console.log("we're in the question query");
-      console.log("question is", question);
       let now = Date.now().toString();
-      // let convo = await Conversation.findById(conversationID);
       let msgs = await Message.find({ conversationID: conversationID });
-      console.log("msgs are", msgs);
       let messages: string[] = [];
-      try {
-        msgs.forEach((msg) => {
-          console.log("msg is", msg);
-          messages.push(msg.text);
-        });
-      } catch (error) {
-        console.log(error);
-      }
-      console.log("messages are", messages);
+      msgs.forEach((msg) => {
+        messages.push(msg.text);
+      });
+      console.log("question is", question);
 
       const QAInstance = await QA.build(messages);
-      console.log("instance is", QAInstance);
+      console.log("instance code is", QAInstance.code);
       const AIAnswer = (await QAInstance.ask(question)).text;
       console.log("answer is", AIAnswer);
-
       const newAIMessage = new Message({
         conversationID: conversationID,
         date: now,
         isAI: true,
-        // text: question,
         text: AIAnswer,
+        // text: question,
       });
       return newAIMessage;
     },

@@ -14,6 +14,7 @@ const Conversation = () => {
   });
 
   useEffect(() => {
+    window.scrollTo(0, document.body.scrollHeight);
     if (data && data.messages.length === 1)
       getAnswerForFirstMessage(data.messages[0]);
   }, [data]);

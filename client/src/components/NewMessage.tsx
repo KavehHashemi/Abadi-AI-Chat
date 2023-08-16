@@ -47,12 +47,10 @@ const NewMessage = ({ conversationID }: NewMessageProps) => {
         conversationID: conversationID,
       },
       onCompleted: async (data) => {
-        console.log(data);
-
         await addAIAnswer(data.question.text);
+        if (messageRef.current) messageRef.current.value = "";
       },
     });
-    if (messageRef.current) messageRef.current.value = "";
   };
 
   return (

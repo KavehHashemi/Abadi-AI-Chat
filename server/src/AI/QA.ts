@@ -3,9 +3,9 @@ import { ConversationalRetrievalQAChain } from "langchain/chains";
 import { HNSWLib } from "langchain/vectorstores/hnswlib";
 import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
-import { BufferMemory } from "langchain/memory";
+import { BufferMemory, ChatMessageHistory } from "langchain/memory";
 import * as fs from "fs";
-import { BaseChatMessageHistory } from "langchain/dist/schema";
+import { BaseMessage, HumanMessage } from "langchain/schema";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -34,17 +34,19 @@ export class QA {
     );
 
     ///testing
-    console.log("got the messages", messages);
 
-    let chatHistory: BaseChatMessageHistory;
-    // let a: BaseMessage[] = [];
-    messages.map((msg) => {
-      // let tempMessage = new HumanMessage({ content: msg });
-      // a.push(tempMessage);
-      // chatHistory.addMessage(tempMessage);
+    // const chatHistory: BaseChatMessageHistory = {};
+    const chatHistory: ChatMessageHistory = new ChatMessageHistory();
+    const a: BaseMessage[] = [];
+    messages.map(async (msg) => {
+      const tempMessage = new HumanMessage({ content: msg });
+      console.log("tempMessage is", tempMessage);
+      a.push(tempMessage);
+      console.log("a has ", a.length, " items in it");
+      await chatHistory.addMessage(tempMessage);
     });
 
-    console.log("chat history", chatHistory);
+    console.log("chat history is", chatHistory);
 
     ///
     const bufferMemory = new BufferMemory({

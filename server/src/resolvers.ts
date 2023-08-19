@@ -1,6 +1,6 @@
 import { GraphQLError } from "graphql";
 import { User, Conversation, Message } from "./mongoose.js";
-import { QA } from "./AI/QA.js";
+import { BuildMessageType, QA } from "./AI/QA.js";
 
 type CTXType = {
   auth: {
@@ -27,11 +27,13 @@ export const resolvers = {
     question: async (_, { question, conversationID }) => {
       let now = Date.now().toString();
       let msgs = await Message.find({ conversationID: conversationID });
-      let messages: string[] = [];
+      console.log("fetched messages are", msgs);
+      const messages: BuildMessageType = [{ message: "", isAI: false }];
       msgs.forEach((msg) => {
-        messages.push(msg.text);
+        console.log("single message is", msg.text, msg.isAI);
+        messages.push({ message: msg.text, isAI: msg.isAI });
       });
-      console.log("question is", question);
+      console.log("messages are", messages);
 
       const QAInstance = await QA.build(messages);
       console.log("instance code is", QAInstance.code);
@@ -79,6 +81,15 @@ export const resolvers = {
       });
       await newMsg.save();
       return newMsg;
+    },
+
+    deleteMessages: async (_, { conversationID }) => {
+      let result = await Message.deleteMany({ conversationID: conversationID });
+      if (result.acknowledged && result.deletedCount > 0) {
+        console.log("deleted", result.deletedCount, "messages");
+        return conversationID;
+      }
+      return null;
     },
 
     deleteConversation: async (_, { conversationID }) => {

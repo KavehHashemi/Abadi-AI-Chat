@@ -9,24 +9,22 @@ import Paper from "@mui/material/Paper";
 import Navbar from "./components/navbar/Navbar";
 
 import { useAuth0 } from "@auth0/auth0-react";
-import ConversationsList from "./components/ConversationsList";
-import Conversation from "./components/Conversation";
-// import { useEffect } from "react";
+import ConversationsList from "./components/conversations/ConversationsList";
+import Conversation from "./components/conversations/Conversation";
 
 const App = () => {
+  const { isAuthenticated, isLoading } = useAuth0();
+  const { currentConversation } = useAppSelector((state) => state.conversation);
   const { isLightMode } = useAppSelector((state) => state.mode);
   const darkTheme = createTheme(darkThemeOptions);
   const lightTheme = createTheme(lightThemeOptions);
-  // const { currentConversation } = useAppSelector((state) => state.conversation);
-  const { isAuthenticated, isLoading } = useAuth0();
 
   return (
     <ThemeProvider theme={isLightMode ? lightTheme : darkTheme}>
-      <Paper sx={{ minHeight: "100dvh" }}>
-        {/* <div style={{ minHeight: "100dvh" }}> */}
+      <Paper sx={{ minHeight: "100dvh", borderRadius: "0" }}>
         <Navbar isLightMode={isLightMode}></Navbar>
         {isLoading ? (
-          <>loading</>
+          <div className="loading">loading</div>
         ) : isAuthenticated ? (
           <Routes>
             <Route
@@ -34,14 +32,13 @@ const App = () => {
               element={<ConversationsList></ConversationsList>}
             ></Route>
             <Route
-              path={`/conversation`}
+              path={`/conversations/${currentConversation}`}
               element={<Conversation></Conversation>}
             ></Route>
           </Routes>
         ) : (
           <div className="login">you need to login first</div>
         )}
-        {/* </div> */}
       </Paper>
     </ThemeProvider>
   );

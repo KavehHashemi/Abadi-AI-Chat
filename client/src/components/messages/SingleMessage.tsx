@@ -1,6 +1,6 @@
-import { Card, CardContent, Paper, Typography } from "@mui/material";
-import { handleDate } from "../utils";
-import "../style/style.scss";
+import { Card, CardContent, Typography } from "@mui/material";
+import { handleDate } from "../../utils";
+import "../../style/style.scss";
 
 type SingleMessageProps = {
   date: string;
@@ -15,7 +15,6 @@ const SingleMessage = ({ date, isAI, text }: SingleMessageProps) => {
         isAI ? "single-message-container-a" : "single-message-container-h"
       }
     >
-      {/* <Card className={isAI ? "single-message-a" : "single-message-h"}> */}
       <Card className="single-message">
         <CardContent>
           <Typography color={isAI ? "secondary" : "primary"}>{text}</Typography>

@@ -35,5 +35,6 @@ export const typeDefs = `#graphql
     addMessage(isAI:Boolean, text:String, conversationID:ID):Message
 
     deleteConversation(conversationID:ID):ID
+    deleteMessages(conversationID:ID):ID
     }
 `;

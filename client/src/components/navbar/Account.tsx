@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import Popover from "@mui/material/Popover";
 import Button from "@mui/material/Button";
-import { CardContent, Typography } from "@mui/material";
+import { CardContent, Paper, Typography } from "@mui/material";
 
 const Account = () => {
   const { user, logout, loginWithRedirect } = useAuth0();
@@ -32,14 +32,23 @@ const Account = () => {
             horizontal: "center",
           }}
         >
-          <CardContent sx={{ cursor: "pointer" }} onClick={() => logout()}>
-            Logout
-          </CardContent>
+          <div style={{ padding: "0.5rem 0" }}>
+            <Button
+              sx={{ padding: "0.5rem 1.5rem", borderRadius: "0" }}
+              onClick={() => logout()}
+            >
+              Logout
+            </Button>
+          </div>
         </Popover>
       </>
     );
   else {
-    return <Button onClick={() => loginWithRedirect()}>login</Button>;
+    return (
+      <Button color="inherit" onClick={() => loginWithRedirect()}>
+        LOGIN
+      </Button>
+    );
   }
 };
 

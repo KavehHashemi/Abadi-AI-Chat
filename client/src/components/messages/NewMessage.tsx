@@ -1,5 +1,5 @@
 import { useMutation, useLazyQuery } from "@apollo/client";
-import { ADD_MESSAGE, MESSAGES_QUERY, QUESTION_QUERY } from "../graphql";
+import { ADD_MESSAGE, MESSAGES_QUERY, QUESTION_QUERY } from "../../graphql";
 import { useRef } from "react";
 import { Button, Paper, TextField } from "@mui/material";
 
@@ -48,9 +48,9 @@ const NewMessage = ({ conversationID }: NewMessageProps) => {
       },
       onCompleted: async (data) => {
         await addAIAnswer(data.question.text);
-        if (messageRef.current) messageRef.current.value = "";
       },
     });
+    if (messageRef.current) messageRef.current.value = "";
   };
 
   return (

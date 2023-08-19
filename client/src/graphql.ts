@@ -75,3 +75,14 @@ export const ADD_MESSAGE = gql`
     }
   }
 `;
+export const DELETE_CONVERSATION = gql`
+  mutation Mutation($conversationID: ID) {
+    deleteConversation(conversationID: $conversationID)
+  }
+`;
+
+export const DELETE_MESSAGES = gql`
+  mutation Mutation($conversationID: ID) {
+    deleteMessages(conversationID: $conversationID)
+  }
+`;

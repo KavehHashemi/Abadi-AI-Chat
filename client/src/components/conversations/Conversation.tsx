@@ -1,10 +1,11 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
-import { useAppSelector } from "../store/hooks";
-import NewMessage from "./NewMessage";
-import { ADD_MESSAGE, MESSAGES_QUERY, QUESTION_QUERY } from "../graphql";
-import { MessageType } from "../types";
-import SingleMessage from "./SingleMessage";
-import "../style/style.scss";
+import { useAppSelector } from "../../store/hooks";
+import NewMessage from "../messages/NewMessage";
+import { ADD_MESSAGE, MESSAGES_QUERY, QUESTION_QUERY } from "../../graphql";
+import { MessageType } from "../../types";
+import SingleMessage from "../messages/SingleMessage";
+import "../../style/style.scss";
 import { useEffect } from "react";
 
 const Conversation = () => {
@@ -50,22 +51,24 @@ const Conversation = () => {
     });
   };
 
-  if (error) return <div>{error.message}</div>;
-  if (loading) return <div>Loading...</div>;
+  if (error) return <div className="error">{error.message}</div>;
+  if (loading) return <div className="loading">Loading...</div>;
   else
     return (
       <>
-        <div className="messages-container">
-          {data?.messages?.map((msg: MessageType) => {
-            return (
-              <SingleMessage
-                key={msg.id}
-                date={msg.date}
-                isAI={msg.isAI}
-                text={msg.text}
-              ></SingleMessage>
-            );
-          })}
+        <div className="conversation-container">
+          <div className="messages-container">
+            {data?.messages?.map((msg: MessageType) => {
+              return (
+                <SingleMessage
+                  key={msg.id}
+                  date={msg.date}
+                  isAI={msg.isAI}
+                  text={msg.text}
+                ></SingleMessage>
+              );
+            })}
+          </div>
         </div>
         <NewMessage conversationID={currentConversation}></NewMessage>
       </>

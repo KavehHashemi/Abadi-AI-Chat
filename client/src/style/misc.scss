@@ -11,3 +11,22 @@
     border: 1px solid #2a2a2a;
     border-radius: 1rem;
 }
+
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50svh;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.error {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50svh;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: crimson
+}

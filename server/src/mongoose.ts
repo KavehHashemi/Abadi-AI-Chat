@@ -13,7 +13,6 @@ const conversationSchema = new mongoose.Schema({
   startDate: String,
   lastDate: String,
   title: String,
-  // QAInstance: Buffer,
 });
 
 export const Conversation = mongoose.model("Conversation", conversationSchema);

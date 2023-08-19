@@ -4,13 +4,13 @@ import {
   ADD_MESSAGE,
   CONVERSATIONS_QUERY,
   MESSAGES_QUERY,
-} from "../graphql";
+} from "../../graphql";
 import { useRef } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { setCurrentConversation } from "../store/conversation";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { setCurrentConversation } from "../../store/conversation";
 import { useNavigate } from "react-router-dom";
-import "../style/style.scss";
+import "../../style/style.scss";
 import { Button, TextField } from "@mui/material";
 
 type NewConversationProps = {
@@ -32,7 +32,12 @@ const NewConversation = ({ userID }: NewConversationProps) => {
       },
     ],
     onCompleted: (data) => {
-      dispatch(setCurrentConversation(data.addConversation.id));
+      dispatch(
+        setCurrentConversation({
+          id: data.addConversation.id,
+          name: data.addConversation.title,
+        })
+      );
       addTitleAsFirstMessage(data.addConversation.id);
     },
   });
@@ -55,7 +60,7 @@ const NewConversation = ({ userID }: NewConversationProps) => {
       },
     ],
     onCompleted: async () => {
-      navigate("/conversation");
+      navigate(`/conversations/${currentConversation}`);
     },
   });
 

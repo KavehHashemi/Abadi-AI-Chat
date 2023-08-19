@@ -31,6 +31,8 @@ export const darkThemeOptions: ThemeOptions = {
           gap: "0.1rem",
           cursor: "pointer",
           backgroundColor: "#0a0a0a",
+          border: "1px solid #2a2a2a",
+          boxShadow: "none",
           "&:hover": {
             backgroundColor: "#101010",
           },
@@ -61,7 +63,7 @@ export const lightThemeOptions: ThemeOptions = {
       paper: "#f8f8f8",
     },
     text: {
-      primary: "#c5c5c5",
+      // primary: "#c5c5c5",
       secondary: "#324b4d",
     },
   },
@@ -87,6 +89,20 @@ export const lightThemeOptions: ThemeOptions = {
           "&:hover": {
             boxShadow: "2px 2px 10px #ddd",
           },
+        },
+      },
+    },
+    MuiAppBar: {
+      styleOverrides: {
+        root: {
+          borderBottom: "1px solid #0071b6",
+        },
+      },
+    },
+    MuiInputBase: {
+      styleOverrides: {
+        root: {
+          color: "#333",
         },
       },
     },

@@ -14,17 +14,19 @@ type props = {
 
 const Navbar = ({ isLightMode }: props) => {
   const dispatch = useAppDispatch();
-  const { currentConversation } = useAppSelector((state) => state.conversation);
+  const { currentConversationName } = useAppSelector(
+    (state) => state.conversation
+  );
   const navigate = useNavigate();
 
   const handleClick = () => {
     navigate("/");
-    dispatch(setCurrentConversation(null));
+    dispatch(setCurrentConversation({ id: null, name: null }));
   };
   return (
     <AppBar position="relative">
       <Toolbar className="navbar">
-        {currentConversation ? (
+        {currentConversationName ? (
           <BackIcon
             onClick={handleClick}
             style={{ cursor: "pointer" }}
@@ -34,6 +36,7 @@ const Navbar = ({ isLightMode }: props) => {
             Home
           </Typography>
         )}
+        <Toolbar>{currentConversationName}</Toolbar>
         <Toolbar sx={{ gap: "1rem" }}>
           <Account></Account>
           <ModeSwitch isLightMode={isLightMode}></ModeSwitch>

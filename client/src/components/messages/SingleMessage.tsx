@@ -1,5 +1,5 @@
 import { Card, CardContent, Typography } from "@mui/material";
-import { handleDate } from "../../utils";
+import { handleChatDate } from "../../utils";
 import "../../style/style.scss";
 
 type SingleMessageProps = {
@@ -17,9 +17,11 @@ const SingleMessage = ({ date, isAI, text }: SingleMessageProps) => {
     >
       <Card className="single-message">
         <CardContent>
-          <Typography color={isAI ? "secondary" : "primary"}>{text}</Typography>
+          <Typography color={isAI ? "secondary" : "primarydark"}>
+            {text}
+          </Typography>
           <Typography variant="caption" color="GrayText">
-            {handleDate(date)}
+            {handleChatDate(date)}
           </Typography>
         </CardContent>
       </Card>

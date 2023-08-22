@@ -1,4 +1,4 @@
-import { handleDate } from "../../utils";
+import { handleChatDate } from "../../utils";
 import { useNavigate } from "react-router-dom";
 import { setCurrentConversation } from "../../store/conversation";
 import { useAppDispatch } from "../../store/hooks";
@@ -32,8 +32,11 @@ const ConversationCard = ({
       <div className="conversation-card">
         <div id="title" onClick={handleClick}>
           <Typography color="primary">{title}</Typography>
-          <Typography variant="caption" color="GrayText">
+          {/* <Typography variant="caption" color="GrayText">
             {handleDate(startDate)}
+          </Typography> */}
+          <Typography variant="caption" color="GrayText">
+            {handleChatDate(lastDate)}
           </Typography>
         </div>
         <div id="action">

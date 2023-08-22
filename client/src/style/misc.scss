@@ -30,3 +30,13 @@
     text-transform: uppercase;
     color: crimson
 }
+
+.start {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-transform: uppercase;
+    font-weight: 500;
+    font-size: 20px;
+    margin: 3rem auto;
+}

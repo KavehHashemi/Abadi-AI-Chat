@@ -6,9 +6,13 @@ import { ADD_MESSAGE, MESSAGES_QUERY, QUESTION_QUERY } from "../../graphql";
 import { MessageType } from "../../types";
 import SingleMessage from "../messages/SingleMessage";
 import "../../style/style.scss";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import Skeleton from "@mui/material/Skeleton";
+import Card from "@mui/material/Card";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const Conversation = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const { currentConversation } = useAppSelector((state) => state.conversation);
   const { data, loading, error } = useQuery(MESSAGES_QUERY, {
     variables: { conversationID: currentConversation },
@@ -16,8 +20,10 @@ const Conversation = () => {
 
   useEffect(() => {
     window.scrollTo(0, document.body.scrollHeight);
-    if (data && data.messages.length === 1)
+    if (data && data.messages.length === 1) {
+      setIsLoading(true);
       getAnswerForFirstMessage(data.messages[0]);
+    }
   }, [data]);
 
   const [questionQuery] = useLazyQuery(QUESTION_QUERY);
@@ -47,12 +53,18 @@ const Conversation = () => {
       },
       onCompleted: async (data) => {
         await addAIAnswer(data.question.text);
+        setIsLoading(false);
       },
     });
   };
 
   if (error) return <div className="error">{error.message}</div>;
-  if (loading) return <div className="loading">Loading...</div>;
+  if (loading)
+    return (
+      <div className="loading">
+        <CircularProgress></CircularProgress>
+      </div>
+    );
   else
     return (
       <>
@@ -68,9 +80,23 @@ const Conversation = () => {
                 ></SingleMessage>
               );
             })}
+            {isLoading ? (
+              <div className="single-message-container-a">
+                <Card className="single-message">
+                  <Skeleton
+                    variant="rounded"
+                    width={250}
+                    height={80}
+                  ></Skeleton>
+                </Card>
+              </div>
+            ) : null}
           </div>
         </div>
-        <NewMessage conversationID={currentConversation}></NewMessage>
+        <NewMessage
+          conversationID={currentConversation}
+          setIsLoading={setIsLoading}
+        ></NewMessage>
       </>
     );
 };

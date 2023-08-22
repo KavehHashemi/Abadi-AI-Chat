@@ -42,6 +42,18 @@ const NewConversation = ({ userID }: NewConversationProps) => {
     },
   });
 
+  const [addMessageMutation] = useMutation(ADD_MESSAGE, {
+    refetchQueries: [
+      {
+        query: MESSAGES_QUERY,
+        variables: { conversationID: currentConversation },
+      },
+    ],
+    onCompleted: () => {
+      navigate(`/conversations/${currentConversation}`);
+    },
+  });
+
   const addTitleAsFirstMessage = (id: string) => {
     addMessageMutation({
       variables: {
@@ -52,22 +64,11 @@ const NewConversation = ({ userID }: NewConversationProps) => {
     });
   };
 
-  const [addMessageMutation] = useMutation(ADD_MESSAGE, {
-    refetchQueries: [
-      {
-        query: MESSAGES_QUERY,
-        variables: { conversationID: currentConversation },
-      },
-    ],
-    onCompleted: async () => {
-      navigate(`/conversations/${currentConversation}`);
-    },
-  });
-
   const addNewConversation = async () => {
-    await addConversationMutation({
-      variables: { userID: userID, title: messageRef.current?.value },
-    });
+    if (messageRef.current?.value)
+      await addConversationMutation({
+        variables: { userID: userID, title: messageRef.current?.value },
+      });
   };
 
   return (

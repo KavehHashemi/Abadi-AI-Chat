@@ -9,7 +9,8 @@ import { AIMessage, BaseMessage, HumanMessage } from "langchain/schema";
 import dotenv from "dotenv";
 dotenv.config();
 
-export type BuildMessageType = [{ message: string; isAI: boolean }];
+// export type BuildMessageType = [{ message: string; isAI: boolean }];
+export type BuildMessageType = { message: string; isAI: boolean }[];
 
 export class QA {
   public code: number;
@@ -20,7 +21,7 @@ export class QA {
     this.chain = chain;
   }
 
-  // public static build = async (messages: string[]) => {
+  ///chat history build
   public static build = async (messages: BuildMessageType) => {
     const model = new ChatOpenAI({ temperature: 0 });
     ///input texts
@@ -47,9 +48,7 @@ export class QA {
       } else {
         tempMessage = new HumanMessage({ content: msg.message });
       }
-      console.log("tempMessage is", tempMessage);
       a.push(tempMessage);
-      console.log("a has ", a.length, " items in it");
       await chatHistory.addMessage(tempMessage);
     });
 
@@ -60,6 +59,39 @@ export class QA {
       chatHistory: chatHistory,
       memoryKey: "chat_history",
     });
+    const chain = ConversationalRetrievalQAChain.fromLLM(
+      model,
+      vectorStore.asRetriever(),
+      {
+        memory: bufferMemory,
+      }
+    );
+    return new QA(chain);
+  };
+
+  ///normal build
+  public static normalBuild = async () => {
+    const model = new ChatOpenAI({ temperature: 0 });
+    ///input texts
+    const text = fs.readFileSync("about.txt", "utf8");
+    const text2 = fs.readFileSync("PM.txt", "utf8");
+    ///
+    const textSplitter = new RecursiveCharacterTextSplitter({
+      chunkSize: 1000,
+    });
+    const docs = await textSplitter.createDocuments([text, text2]);
+    const vectorStore = await HNSWLib.fromDocuments(
+      docs,
+      new OpenAIEmbeddings()
+    );
+
+    ///testing
+
+    ///
+    const bufferMemory = new BufferMemory({
+      memoryKey: "chat_history",
+    });
+
     const chain = ConversationalRetrievalQAChain.fromLLM(
       model,
       vectorStore.asRetriever(),

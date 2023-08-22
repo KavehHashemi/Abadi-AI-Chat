@@ -1,11 +1,22 @@
 .new-message-container {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    bottom: 0;
+    justify-content: center;
     position: sticky;
-    gap: 1.5rem;
-    padding: 0.5rem;
+    bottom: 0;
+
+    [id=loading] {
+        width: 100%;
+    }
+
+    [id=message] {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1.5rem;
+        padding: 0.5rem;
+    }
 
     input {
         width: 50vw;

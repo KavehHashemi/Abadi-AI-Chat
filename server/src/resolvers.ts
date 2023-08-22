@@ -26,19 +26,16 @@ export const resolvers = {
     },
     question: async (_, { question, conversationID }) => {
       let now = Date.now().toString();
-      let msgs = await Message.find({ conversationID: conversationID });
-      console.log("fetched messages are", msgs);
-      const messages: BuildMessageType = [{ message: "", isAI: false }];
-      msgs.forEach((msg) => {
-        console.log("single message is", msg.text, msg.isAI);
-        messages.push({ message: msg.text, isAI: msg.isAI });
-      });
-      console.log("messages are", messages);
+      // let msgs = await Message.find({ conversationID: conversationID });
+      // const messages: { message: string; isAI: boolean }[] = [];
+      // msgs.forEach((msg) => {
+      //   messages.push({ message: msg.text, isAI: msg.isAI });
+      // });
 
-      const QAInstance = await QA.build(messages);
-      console.log("instance code is", QAInstance.code);
+      // const QAInstance = await QA.build(messages);
+
+      const QAInstance = await QA.normalBuild();
       const AIAnswer = (await QAInstance.ask(question)).text;
-      console.log("answer is", AIAnswer);
       const newAIMessage = new Message({
         conversationID: conversationID,
         date: now,
@@ -65,6 +62,7 @@ export const resolvers = {
       const newConvo = new Conversation({
         userID: userID,
         startDate: now,
+        lastDate: now,
         title: title,
       });
       await newConvo.save();
@@ -81,6 +79,17 @@ export const resolvers = {
       });
       await newMsg.save();
       return newMsg;
+    },
+
+    editConversation: async (_, { conversationID }) => {
+      let now = Date.now().toString();
+      let result = await Conversation.updateOne(
+        { _id: conversationID },
+        { $set: { lastDate: now } }
+      );
+      if (result.acknowledged && result.modifiedCount === 1) {
+        return await Conversation.findOne({ _id: conversationID });
+      }
     },
 
     deleteMessages: async (_, { conversationID }) => {

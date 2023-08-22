@@ -15,6 +15,7 @@ export const CONVERSATIONS_QUERY = gql`
     conversations(userID: $userID) {
       id
       startDate
+      lastDate
       userID
       title
     }
@@ -60,6 +61,7 @@ export const ADD_CONVERSATION = gql`
       id
       userID
       startDate
+      lastDate
       title
     }
   }
@@ -75,6 +77,16 @@ export const ADD_MESSAGE = gql`
     }
   }
 `;
+
+export const EDIT_CONVERSATION = gql`
+  mutation Mutation($conversationID: ID) {
+    editConversation(conversationID: $conversationID) {
+      id
+      lastDate
+    }
+  }
+`;
+
 export const DELETE_CONVERSATION = gql`
   mutation Mutation($conversationID: ID) {
     deleteConversation(conversationID: $conversationID)

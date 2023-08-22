@@ -2,41 +2,26 @@ import Account from "./Account";
 import ModeSwitch from "./ModeSwitch";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
-import BackIcon from "@mui/icons-material/ArrowBack";
-import { useNavigate } from "react-router-dom";
 import "../../style/style.scss";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { setCurrentConversation } from "../../store/conversation";
 import { Typography } from "@mui/material";
+import Navigation from "./Navigation";
+
 type props = {
   isLightMode: boolean;
+  conversationName: string | null;
 };
 
-const Navbar = ({ isLightMode }: props) => {
-  const dispatch = useAppDispatch();
-  const { currentConversationName } = useAppSelector(
-    (state) => state.conversation
-  );
-  const navigate = useNavigate();
-
-  const handleClick = () => {
-    navigate("/");
-    dispatch(setCurrentConversation({ id: null, name: null }));
-  };
+const Navbar = ({ isLightMode, conversationName }: props) => {
   return (
-    <AppBar position="relative">
+    <AppBar position="sticky">
       <Toolbar className="navbar">
-        {currentConversationName ? (
-          <BackIcon
-            onClick={handleClick}
-            style={{ cursor: "pointer" }}
-          ></BackIcon>
+        {conversationName !== null ? (
+          <Navigation></Navigation>
         ) : (
           <Typography variant="h6" fontWeight="bold" color="whitesmoke">
             Home
           </Typography>
         )}
-        <Toolbar>{currentConversationName}</Toolbar>
         <Toolbar sx={{ gap: "1rem" }}>
           <Account></Account>
           <ModeSwitch isLightMode={isLightMode}></ModeSwitch>

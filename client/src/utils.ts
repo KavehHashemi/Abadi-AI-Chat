@@ -26,10 +26,11 @@ export const handleChatDate = (timeStamp: string) => {
   if (
     a.getFullYear() !== b.getFullYear() ||
     a.getMonth() !== b.getMonth() ||
-    a.getDay() !== b.getDay()
+    a.getDate() !== b.getDate()
   )
     return weekday + " " + date + " " + month + " | " + hoursAndMinutes;
   return hoursAndMinutes;
+  return weekday + " " + date + " " + month + " | " + hoursAndMinutes;
 };
 
 const convertToTwelveHours = (h: number, m: number) => {

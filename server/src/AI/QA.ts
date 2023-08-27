@@ -3,13 +3,20 @@ import { ConversationalRetrievalQAChain } from "langchain/chains";
 import { HNSWLib } from "langchain/vectorstores/hnswlib";
 import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
-import { BufferMemory, ChatMessageHistory } from "langchain/memory";
+import {
+  BufferMemory,
+  ChatMessageHistory,
+  ConversationSummaryBufferMemory,
+} from "langchain/memory";
 import * as fs from "fs";
 import { AIMessage, BaseMessage, HumanMessage } from "langchain/schema";
+// import {
+//   ChatPromptTemplate,
+//   SystemMessagePromptTemplate,
+// } from "langchain/prompts";
 import dotenv from "dotenv";
 dotenv.config();
 
-// export type BuildMessageType = [{ message: string; isAI: boolean }];
 export type BuildMessageType = { message: string; isAI: boolean }[];
 
 export class QA {
@@ -23,7 +30,15 @@ export class QA {
 
   ///chat history build
   public static build = async (messages: BuildMessageType) => {
-    const model = new ChatOpenAI({ temperature: 0 });
+    // const template = "You are a helpful assistant that answers in Persian";
+    // const systemMessagePrompt =
+    //   SystemMessagePromptTemplate.fromTemplate(template);
+
+    // const chatPrompt = ChatPromptTemplate.fromPromptMessages([
+    //   systemMessagePrompt,
+    // ]);
+
+    const model = new ChatOpenAI({});
     ///input texts
     const text = fs.readFileSync("about.txt", "utf8");
     const text2 = fs.readFileSync("PM.txt", "utf8");
@@ -39,32 +54,34 @@ export class QA {
 
     ///testing
 
-    const chatHistory: ChatMessageHistory = new ChatMessageHistory();
-    const a: BaseMessage[] = [];
-    messages.map(async (msg) => {
+    const previousMessages: BaseMessage[] = [];
+
+    messages.forEach(async (msg) => {
       let tempMessage: BaseMessage;
-      if (msg.isAI) {
-        tempMessage = new AIMessage({ content: msg.message });
-      } else {
-        tempMessage = new HumanMessage({ content: msg.message });
-      }
-      a.push(tempMessage);
-      await chatHistory.addMessage(tempMessage);
+      if (msg.isAI) tempMessage = new AIMessage({ content: msg.message });
+      else tempMessage = new HumanMessage({ content: msg.message });
+
+      previousMessages.push(tempMessage);
+      // await chatHistory.addMessage(tempMessage);
     });
 
-    console.log("chat history is", chatHistory);
+    const chatHistory: ChatMessageHistory = new ChatMessageHistory(
+      previousMessages
+    );
 
     ///
     const bufferMemory = new BufferMemory({
       chatHistory: chatHistory,
       memoryKey: "chat_history",
     });
+
     const chain = ConversationalRetrievalQAChain.fromLLM(
       model,
       vectorStore.asRetriever(),
-      {
-        memory: bufferMemory,
-      }
+      bufferMemory
+      // {
+      //   memory: bufferMemory,
+      // }
     );
     return new QA(chain);
   };
@@ -85,9 +102,6 @@ export class QA {
       new OpenAIEmbeddings()
     );
 
-    ///testing
-
-    ///
     const bufferMemory = new BufferMemory({
       memoryKey: "chat_history",
     });
